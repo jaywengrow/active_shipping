@@ -233,6 +233,7 @@ module ActiveMerchant
             request << XmlNode.new('RequestOption', '1')
           end
           root_node << XmlNode.new('TrackingNumber', tracking_number.to_s)
+          root_node << XmlNode.new('TrackingOption', '03') if options[:mail_innovations]
         end
         xml_request.to_s
       end
