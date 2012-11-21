@@ -14,7 +14,8 @@ module ActiveMerchant
       
       RESOURCES = {
         :rates => 'ups.app/xml/Rate',
-        :track => 'ups.app/xml/Track'
+        :track => 'ups.app/xml/Track',
+        :address_validation => 'ups.app/xml/XAV',
       }
       
       PICKUP_CODES = HashWithIndifferentAccess.new({
