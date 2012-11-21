@@ -112,7 +112,14 @@ module ActiveMerchant
         response = commit(:track, save_request(access_request + tracking_request), (options[:test] || false))
         parse_tracking_response(response, options)
       end
-      
+
+      def validate_address(address, city, state, zip_code, country="US", options={})
+        access_request = build_access_request
+        address_validation_request = build_address_validation_request(address, city, state, zip_code, country, options={})
+        response = commit(:address_validation, save_request(access_request + address_validation_request), (options[:test] || false))
+        response.inspect
+      end
+
       protected
       
       def upsified_location(location)
@@ -234,6 +241,23 @@ module ActiveMerchant
           end
           root_node << XmlNode.new('TrackingNumber', tracking_number.to_s)
           root_node << XmlNode.new('TrackingOption', '03') if options[:mail_innovations]
+        end
+        xml_request.to_s
+      end
+
+
+      def build_address_validation_request(address, city, state, zip_code, country, options={})
+        xml_request = XmlNode.new('AddressValidationRequest') do |root_node|
+          root_node << XmlNode.new('Request') do |request|
+            request << XmlNode.new('RequestAction', 'XAV')
+            request << XmlNode.new('AddressKeyFormat') do |address_key_format|
+              address_key_format << XmlNode.new('AddressLine', address)
+              address_key_format << XmlNode.new('PoliticalDivision2', city)
+              address_key_format << XmlNode.new('PoliticalDivision1', state)
+              address_key_format << XmlNode.new('PostcodePrimaryLow', zip_code)
+              address_key_format << XmlNode.new('CountryCode', country)
+            end
+          end
         end
         xml_request.to_s
       end
