@@ -115,6 +115,7 @@ module ActiveMerchant
       end
 
       def validate_address(address, city, state, zip_code, country="US", options={})
+        options = @options.merge(options)
         access_request = build_access_request
         address_validation_request = build_address_validation_request(address, city, state, zip_code, country, options={})
         response = commit(:address_validation, save_request(access_request + address_validation_request), (options[:test] || false))
