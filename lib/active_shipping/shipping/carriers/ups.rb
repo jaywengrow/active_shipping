@@ -252,13 +252,13 @@ module ActiveMerchant
         xml_request = XmlNode.new('AddressValidationRequest') do |root_node|
           root_node << XmlNode.new('Request') do |request|
             request << XmlNode.new('RequestAction', 'XAV')
-            request << XmlNode.new('AddressKeyFormat') do |address_key_format|
-              address_key_format << XmlNode.new('AddressLine', address)
-              address_key_format << XmlNode.new('PoliticalDivision2', city)
-              address_key_format << XmlNode.new('PoliticalDivision1', state)
-              address_key_format << XmlNode.new('PostcodePrimaryLow', zip_code)
-              address_key_format << XmlNode.new('CountryCode', country)
-            end
+          end
+          root_node << XmlNode.new('AddressKeyFormat') do |address_key_format|
+            address_key_format << XmlNode.new('AddressLine', address)
+            address_key_format << XmlNode.new('PoliticalDivision2', city)
+            address_key_format << XmlNode.new('PoliticalDivision1', state)
+            address_key_format << XmlNode.new('PostcodePrimaryLow', zip_code)
+            address_key_format << XmlNode.new('CountryCode', country)
           end
         end
         xml_request.to_s
