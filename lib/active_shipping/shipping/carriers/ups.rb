@@ -118,7 +118,7 @@ module ActiveMerchant
         options = @options.merge(options)
         access_request = build_access_request
         address_validation_request = build_address_validation_request(address, city, state, zip_code, country, options={})
-        response = commit(:address_validation, save_request(access_request + address_validation_request), (options[:test] || false))
+        response = commit(:address_validation, save_request('<?xml version="1.0"?>' + access_request + '<?xml version="1.0"?>' + address_validation_request), (options[:test] || false))
         response.inspect
       end
 
